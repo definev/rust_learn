@@ -17,15 +17,21 @@ fn main() {
         message: String::from("Page not found!"),
     });
 
-
     display_result(&waiting);
     display_result(&connected);
     display_result(&error);
+
+    let lucky_number = 23;
+    match lucky_number {
+        1 => println!("Hello"),
+        _ => println!("World!"),
+    }
 }
 
 fn display_result(state: &ConnectionState) {
     // The matching patterm is so powerful
-    // We can use this for enum and with value stick with that, we will excute a specific piece of code
+    // We can use this for enum and with value stick with that,
+    // we will excute a specific piece of code
     match state {
         ConnectionState::Waiting => {
             println!("Wait a sec ...\n");
