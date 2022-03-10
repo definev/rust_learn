@@ -1,17 +1,21 @@
-use minigrep::io::Config;
-use minigrep::run;
-use std::process;
+use std::{env, process};
+
+use minigrep::{run, Config};
 
 fn main() {
-    let config = Config::new().unwrap_or_else(|err| {
-        println!("Problem is: {}", err);
-        process::exit(1);
-    });
+    let args: Vec<String> = env::args().collect();
 
-    println!("Search: {}", config.query);
+    let config = Config::new(&args);
+    if let Ok(config) = config {
+        let query = &config.query;
+        let filename = &config.filename;
 
-    if let Err(e) = run(config) {
-        println!("Application error: {}", e);
-        process::exit(1);
+        println!("Searching for {query}");
+        println!("In file {filename}");
+
+        if let Err(e) = run(config) {
+            println!("Application error: {e}");
+            process::exit(1);
+        }
     }
 }
