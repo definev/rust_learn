@@ -3,9 +3,7 @@ use std::{env, process};
 use minigrep::{run, Config};
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-
-    let config = Config::new(&args);
+    let config = Config::new(&mut env::args());
     if let Ok(config) = config {
         let query = &config.query;
         let filename = &config.filename;
