@@ -1,6 +1,6 @@
 pub mod mock_messenger;
 pub mod box_example;
-pub mod multiple_ref_count_mutable_ref;
+pub mod multiple_rc_mut;
 
 use std::rc::Rc;
 
