@@ -1,29 +1,65 @@
-use std::io::{stdin, BufRead};
+pub mod mock_messenger;
+pub mod box_example;
+pub mod multiple_ref_count_mutable_ref;
 
-///
-/// 13214100000 -> 1.32141 x 10^10
-///
+use std::rc::Rc;
+
+use crate::box_example::box_example;
+
+#[allow(dead_code)]
+struct CustomSmartPointer {
+    data: String,
+}
+
+#[allow(dead_code)]
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+    }
+}
+
+#[derive(Debug)]
+#[allow(dead_code)]
+enum RCList {
+    Cons(i32, Rc<RCList>),
+    Nil,
+}
+
+#[allow(dead_code)]
+fn custom_drop_example() {
+    #[allow(unused_variables)]
+    let custom_ptr1 = CustomSmartPointer {
+        data: String::from("What?"),
+    };
+    {
+        #[allow(unused_variables)]
+        let custom_ptr2 = CustomSmartPointer {
+            data: String::from("When?"),
+        };
+    }
+}
+
+#[allow(dead_code)]
+fn rc_example() {
+    let l1 = Rc::new(RCList::Cons(1, Rc::new(RCList::Nil)));
+    println!("Start count after creating l1 = {}", Rc::strong_count(&l1));
+    let l2 = RCList::Cons(2, Rc::clone(&l1));
+    println!("| AFTER L2: after creating l1 = {}", Rc::strong_count(&l1));
+    let l3 = RCList::Cons(2, Rc::clone(&l1));
+    println!("| AFTER L3: after creating l1 = {}", Rc::strong_count(&l1));
+
+    println!("L1: {l1:?}");
+    println!("L2: {l2:?}");
+    println!("L3: {l3:?}");
+    a(l1.as_ref());
+}
+
+fn a(lx: &RCList) {
+    println!("{lx:?}");
+}
 
 fn main() {
-    let stdin = stdin();
-    let mut input_iterator = stdin.lock().lines();
-    let input = input_iterator.next().unwrap().unwrap();
-    let mut expo = 0;
-
-    for last in input.as_bytes().into_iter().rev() {
-        if last != &('0' as u8) {
-            break;
-        } else {
-            expo = expo + 1;
-        }
-    }
-    
-    if let Some(new_format) = input.get(0..input.len() - expo) {
-        expo = expo + new_format.len() - 1;
-        let mut new_format = new_format.to_string();
-        if new_format.len() > 1 {
-            String::insert(&mut new_format, 1, '.');
-        }
-        println!("{new_format} x 10^{expo}");
-    }
+    box_example();
+    // custom_drop_example();
+    // rc_example();
 }

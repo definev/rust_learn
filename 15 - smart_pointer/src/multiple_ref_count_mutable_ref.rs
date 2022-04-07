@@ -1,0 +1,4 @@
+enum MutList {
+    Nil,
+    Cons(),
+}
