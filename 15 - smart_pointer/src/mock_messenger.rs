@@ -58,7 +58,7 @@ mod tests {
     }
 
     impl Messenger for MockMessenger {
-        fn send(&self, message: &str) {
+        fn send(&self, _: &str) {
             self.sent_messages.borrow_mut().push(String::from("21321"));
             self.sent_messages
                 .borrow_mut()

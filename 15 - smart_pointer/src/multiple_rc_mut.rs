@@ -6,7 +6,7 @@ pub enum MutList {
     Cons(Rc<RefCell<i32>>, Box<MutList>),
 }
 
-#[warn(dead_code)]
+#[allow(dead_code)]
 fn multiple_rc_mut() {
     let data = Rc::new(RefCell::new(123));
     let ml1 = MutList::Cons(data.clone(), Box::new(MutList::Nil));
@@ -20,13 +20,21 @@ fn multiple_rc_mut() {
     }
 
     println!("{data:?}");
+
+    match &ml1 {
+        MutList::Cons(data, _) => {
+            *data.borrow_mut() = 213;
+        }
+        _ => {}
+    }
     println!("{ml1:?}");
     println!("{ml2:?}");
+    println!("{data:?}");
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::multiple_rc_mut::multiple_rc_mut;
+    use super::multiple_rc_mut;
 
     #[test]
     fn multiple_rc_mut_test() {
