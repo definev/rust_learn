@@ -1,6 +1,7 @@
 pub mod mock_messenger;
 pub mod box_example;
 pub mod multiple_rc_mut;
+pub mod mem_leak;
 
 use std::rc::Rc;
 
