@@ -1,5 +1,5 @@
+use oop_blog_post::oop_aproach;
 use oop_blog_post::rust_aproach;
-use oop_blog_post::{oop_aproach};
 
 fn main() {
     let mut post = oop_aproach::Post::new();
