@@ -17,6 +17,7 @@ impl List {
 
 use List::{Cons, Nil};
 
+#[test]
 fn mem_leak() {
     let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
@@ -39,13 +40,4 @@ fn mem_leak() {
     // Uncomment the next line to see that we have a cycle;
     // it will overflow the stack
     // println!("a next item = {:?}", a.tail());
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn mem_leak_test() {
-        mem_leak();
-    }
 }

@@ -12,6 +12,11 @@ fn multiple_rc_mut() {
     let ml1 = MutList::Cons(data.clone(), Box::new(MutList::Nil));
     let ml2 = MutList::Cons(data.clone(), Box::new(MutList::Nil));
 
+    println!("Pre-change:");
+    println!("{ml1:?}");
+    println!("{ml2:?}");
+    println!("{data:?}");
+
     match &ml1 {
         MutList::Cons(data, _) => {
             *data.borrow_mut() = 1234;
@@ -19,14 +24,13 @@ fn multiple_rc_mut() {
         _ => {}
     }
 
-    println!("{data:?}");
-
     match &ml1 {
         MutList::Cons(data, _) => {
             *data.borrow_mut() = 213;
         }
         _ => {}
     }
+    println!("After:");
     println!("{ml1:?}");
     println!("{ml2:?}");
     println!("{data:?}");

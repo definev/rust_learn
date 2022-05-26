@@ -3,7 +3,10 @@ pub trait Messenger {
 }
 
 #[derive(Debug)]
-pub struct LimitTracker<'a, T: Messenger> {
+pub struct LimitTracker<'a, T>
+where
+    T: Messenger,
+{
     messenger: &'a T,
     value: usize,
     max: usize,
@@ -60,12 +63,8 @@ mod tests {
     impl Messenger for MockMessenger {
         fn send(&self, _: &str) {
             self.sent_messages.borrow_mut().push(String::from("21321"));
-            self.sent_messages
-                .borrow_mut()
-                .push(format!("1 2 3"));
-            self.sent_messages
-                .borrow_mut()
-                .push(format!("1 2 !!!!"));
+            self.sent_messages.borrow_mut().push(format!("1 2 3"));
+            self.sent_messages.borrow_mut().push(format!("1 2 !!!!"));
         }
     }
 
