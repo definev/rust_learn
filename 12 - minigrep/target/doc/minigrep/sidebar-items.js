@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["run","Run command with config"]],"struct":[["Config","The configuration struct"]]});
